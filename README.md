@@ -22,4 +22,3 @@ See [RULE.md](./RULE.md) for the full rule content that ChatStudio consumes.
 1. Edit in source repo → commit + push
 2. Trigger cache sync
 3. Never patch the cache in place
-EOF; rc=$?; printf "\n__PHYM_CWD__%s\n" "$PWD"; exit $rc

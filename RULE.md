@@ -1,3 +1,9 @@
+---
+name: Plugin sourcing
+description: Modify source repositories only, never the cache — the GitHub source is the single source of truth.
+always: true
+---
+
 # Plugin Sourcing Rule: Modify Source Only, Never the Cache
 
 ## Cache Paths (Read-Only + Executable)
@@ -20,10 +26,13 @@
 
 ## Required Workflow
 
-All modifications **must** be made in the GitHub source repositories:
+All modifications **must** be made in the corresponding GitHub source repository for the
+package in question — never edit the cached copy directly. For the built-in harnesses:
 
-- `phymodel__fbc-data-generation/` or
-- `phymodel__llm-trainer/` (workspace root)
+- `fbc-data-generation/` → repo `phymodel/fbc-data-generation`
+- `llm-trainer/` → repo `phymodel/llm-trainer`
+
+Any other harness / skill / subagent / rule package maps to its own source repo the same way.
 
 After making changes:
 
@@ -46,4 +55,3 @@ These are intended to be written and updated locally during execution.
 
 1. Re-sync from source first.
 2. **Never** patch the cache in place.
-RULE_EOF; rc=$?; printf "\n__PHYM_CWD__%s\n" "$PWD"; exit $rc
