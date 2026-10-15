@@ -1,24 +1,33 @@
 # Plugin Sourcing Rule
 
-ChatStudio rule — **Modify Source Only, Never the Cache**.
+ChatStudio rule — **modify the source repository, never a copy**.
 
 ## Purpose
 
-Prevents AI agents from directly editing cached harness/plugin mirrors (e.g. `~/.chatstudio/cache/`, `~/.phymodel/cache/`). All changes must go through the GitHub source first, then sync.
+Stop an Agent from "fixing" a package only inside a copy that will be overwritten or that nobody
+else can see. The package's upstream repo is the single source of truth.
 
-## Rule File
+The local directory registered in `~/.chatstudio/*.json` is the live package: the loader reads it
+straight from disk (no download / cache / sync / patch step). Find its upstream repo with:
 
-See [RULE.md](./RULE.md) for the full rule content that ChatStudio consumes.
+```bash
+git -C <registered path> remote -v
+```
 
-## Quick Summary
+## Quick summary
 
-| Cached item | Action |
+| Item | Action |
 |---|---|
-| `HARNESS.md`, `README.md`, `RULER.md`, `SKILL.md`, `references/`, `scripts/`, config files | ❌ Never modify |
-| `dataset/fbc_json*`, `llm/out/`, `.pipeline_status.json` | ✅ Runtime artifacts, writable |
+| `RULE.md`, `HARNESS.md`, `SKILL.md`, `RULER.md`, `README.md`, `references/`, `scripts/`, `docs/`, `config/` | edit in the upstream repo → commit + push |
+| `dataset/**` outputs, `llm/dataset/**`, `llm/out/`, `.build/**`, `.state/**`, `.pipeline_status.json`, checkpoints | runtime artifacts — writable locally |
 
 ## Workflow
 
-1. Edit in source repo → commit + push
-2. Trigger cache sync
-3. Never patch the cache in place
+1. Edit in the package's source repo
+2. `commit` + `push` to its upstream (GitHub / Gitee)
+3. Reload the package in Studio (the panel re-reads the local `path`)
+
+## Rule file
+
+[RULE.md](./RULE.md) — the text ChatStudio injects; it carries the decision test and the full
+exception list.
