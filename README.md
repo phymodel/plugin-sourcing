@@ -18,13 +18,14 @@ git -C <registered path> remote -v
 
 | Item | Action |
 |---|---|
-| `RULE.md`, `HARNESS.md`, `SKILL.md`, `RULER.md`, `README.md`, `references/`, `scripts/`, `docs/`, `config/` | edit in the upstream repo → commit + push |
+| `RULE.md`, `HARNESS.md`, `SKILL.md`, `RULER.md`, `README.md`, `references/`, `scripts/`, `docs/`, `config/` | edit in the upstream repo → commit (push per project policy) |
 | `dataset/**` outputs, `llm/dataset/**`, `llm/out/`, `.build/**`, `.state/**`, `.pipeline_status.json`, checkpoints | runtime artifacts — writable locally |
 
 ## Workflow
 
 1. Edit in the package's source repo
-2. `commit` + `push` to its upstream (GitHub / Gitee)
+2. `commit` in that checkout; `push` when the project does it that way and the user agrees — and
+   say so if the push fails
 3. Reload the package in Studio (the panel re-reads the local `path`)
 
 ## Rule file
